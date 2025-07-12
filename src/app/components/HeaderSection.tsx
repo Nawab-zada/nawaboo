@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FaBullhorn } from "react-icons/fa";
 
 export default function HeaderSection() {
   return (
@@ -8,21 +9,18 @@ export default function HeaderSection() {
         <div className="absolute left-1/4 top-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-400 via-purple-300 to-pink-300 opacity-40 rounded-full blur-3xl animate-blob-move1" />
         <div className="absolute right-1/4 bottom-0 w-[400px] h-[400px] bg-gradient-to-br from-purple-300 via-blue-200 to-pink-200 opacity-30 rounded-full blur-3xl animate-blob-move2" />
       </div>
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="flex items-center justify-center mb-8">
-          <Image
-            src="/favicon.ico"
-            alt="Portfolio Logo"
-            width={90}
-            height={90}
-            className="rounded-full border-4 border-blue-200 shadow-xl animate-fade-in"
-          />
+      <div className="relative z-10 flex flex-col items-center w-full max-w-3xl mx-auto">
+        <div className="flex flex-col items-center mb-6">
+          <div className="bg-blue-100 text-blue-700 rounded-full p-4 shadow-lg mb-2">
+            <FaBullhorn size={32} />
+          </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-800 via-blue-500 to-blue-800 tracking-tight leading-tight drop-shadow-lg animate-fade-in">
+            Grow Your Business with Results-Driven Marketing
+          </h1>
         </div>
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-800 via-blue-500 to-blue-800 tracking-tight leading-tight drop-shadow-lg animate-fade-in">
-          Grow Your Business & Build Modern Web Apps
-        </h1>
-        <p className="text-lg md:text-2xl text-gray-700 mb-6 max-w-2xl font-medium animate-fade-in delay-100">
-          I’m <span className="font-semibold text-blue-800">[Nawab zada]</span>, a Google Ads specialist and full stack developer. I help businesses succeed online with expert ad campaigns and cutting-edge web solutions using Next.js, React, and more.
+        <hr className="border-blue-100 mb-8" />
+        <p className="text-lg md:text-2xl text-gray-700 mb-10 max-w-2xl font-medium animate-fade-in delay-100">
+          I’m <span className="font-semibold text-blue-800">Nawab khan</span>, a Google Ads specialist and full stack developer. I help businesses succeed online with expert ad campaigns and modern web solutions using Next.js, React, and more.
         </p>
         <div className="flex flex-wrap gap-3 justify-center mb-8 animate-fade-in delay-200">
           <span className="inline-block bg-blue-100 text-blue-800 font-semibold px-4 py-1 rounded-full text-sm shadow">Google Ads</span>
