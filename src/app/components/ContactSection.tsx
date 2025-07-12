@@ -36,21 +36,21 @@ export default function ContactSection() {
             name="name"
             placeholder="Your Name"
             required
-            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black shadow-sm transition-all duration-200"
+            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black text-black shadow-sm transition-all duration-200"
           />
           <input
             type="email"
             name="email"
             placeholder="Your Email"
             required
-            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black shadow-sm transition-all duration-200"
+            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black text-black shadow-sm transition-all duration-200"
           />
           <textarea
             name="message"
             placeholder="Your Message"
             required
             rows={4}
-            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black shadow-sm transition-all duration-200"
+            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black text-black shadow-sm transition-all duration-200"
           />
           <button
             type="submit"
