@@ -1,66 +1,116 @@
 'use client'
-import { useRef } from "react";
-import { FaRegPaperPlane } from "react-icons/fa";
 
-export default function ContactSection() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const whatsappNumber = "923028334266";
+import React, { useState } from 'react';
+import { FaSpinner } from 'react-icons/fa';
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: '',
+  });
+
+  const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({...formData, [e.target.name]: e.target.value});
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = formRef.current;
-    if (!form) return;
-    const name = (form.elements.namedItem('name') as HTMLInputElement).value;
-    const email = (form.elements.namedItem('email') as HTMLInputElement).value;
-    const message = (form.elements.namedItem('message') as HTMLInputElement).value;
-    const text = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nMessage: ${message}`);
-    window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
-  }
+    setLoading(true);
+    setStatus('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setStatus('Message sent successfully!');
+        setFormData({ name: '', email: '', company: '', message: '' });
+      } else {
+        setStatus(data.error || 'Something went wrong.');
+      }
+    } catch (err) {
+      setStatus('Error sending message.');
+    }
+
+    setLoading(false);
+  };
 
   return (
-    <section id="contact" className="w-full max-w-3xl mx-auto py-16 text-center mb-8">
-      <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-10 border border-blue-100 animate-fade-in-up relative" style={{background: 'linear-gradient(120deg, #e0e7ffcc 0%, #f5e8ffcc 100%)'}}>
-        <div className="flex flex-col items-center mb-6">
-          <div className="bg-blue-100 text-blue-700 rounded-full p-4 shadow-lg mb-2">
-            <FaRegPaperPlane size={32} />
-          </div>
-          <h2 className="text-3xl font-bold text-blue-700">Contact</h2>
-        </div>
-        <hr className="border-blue-100 mb-8" />
-        <p className="text-lg text-gray-700 mb-10">
-          Interested in working together or have a question? Fill out the form below and contact me instantly on WhatsApp!
-        </p>
-        <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6 items-center max-w-md mx-auto animate-fade-in-up">
+    <section id="contact">
+      <div className="max-w-lg mx-auto p-8 bg-white shadow-2xl rounded-xl mt-12">
+        <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
+          Contact Me for Full Stack Development
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="text"
             name="name"
             placeholder="Your Name"
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            value={formData.name}
+            onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black text-black shadow-sm transition-all duration-200"
           />
           <input
             type="email"
             name="email"
             placeholder="Your Email"
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            value={formData.email}
+            onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black text-black shadow-sm transition-all duration-200"
+          />
+          <input
+            type="text"
+            name="company"
+            placeholder="Company Name"
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            value={formData.company}
+            onChange={handleChange}
+            required
           />
           <textarea
             name="message"
             placeholder="Your Message"
-            required
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             rows={4}
-            className="w-full px-4 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90 placeholder-black text-black shadow-sm transition-all duration-200"
-          />
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></textarea>
           <button
             type="submit"
-            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-10 rounded-full shadow-lg text-lg transition-all duration-200 border-2 border-blue-800 hover:scale-105 active:scale-95 flex items-center gap-2"
+            className="w-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold py-3 rounded-md hover:from-purple-700 hover:to-pink-600 transition disabled:opacity-70"
+            disabled={loading}
           >
-            <FaRegPaperPlane className="mb-0.5" />
-            Send Me
+            {loading ? (
+              <FaSpinner className="animate-spin mr-2" />
+            ) : (
+              'Contact Me'
+            )}
+            {loading && ' Sending...'}
           </button>
         </form>
+
+        {status && (
+          <p className={`mt-4 text-center font-medium ${
+            status.includes('success') ? 'text-green-600' : 'text-red-600'
+          }`}>
+            {status}
+          </p>
+        )}
       </div>
     </section>
   );
-} 
+};
+
+export default ContactForm;

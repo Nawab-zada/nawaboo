@@ -4,6 +4,7 @@ import ProjectsSection from "./components/ProjectsSection";
 import ContactSection from "./components/ContactSection";
 import Navbar from "./components/Navbar";
 import GoogleAdsStats from "./components/GoogleAdsStats";
+import Footer from "./Footer";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <GoogleAdsStats />
       <ProjectsSection />
       <ContactSection />
+      <Footer />
       {/* WhatsApp Floating Button */}
       <a
         href="https://wa.me/923028334266"
