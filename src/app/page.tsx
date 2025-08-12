@@ -1,20 +1,23 @@
-import HeaderSection from "./components/HeaderSection";
-import AboutSection from "./components/AboutSection";
-import ProjectsSection from "./components/ProjectsSection";
-import ContactSection from "./components/ContactSection";
+
+
+
+import ContactForm from "./components/ContactSection";
 import Navbar from "./components/Navbar";
-import GoogleAdsStats from "./components/GoogleAdsStats";
+
 import Footer from "./Footer";
+import HeroSection from "./components/Hero";
+import OurCourses from "./components/services";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white relative px-4">
       <Navbar />
-      <HeaderSection />
-      <AboutSection />
-      <GoogleAdsStats />
-      <ProjectsSection />
-      <ContactSection />
+     
+      <HeroSection />
+      <OurCourses />
+      <ContactForm />
+      
+      
       <Footer />
       {/* WhatsApp Floating Button */}
       <a

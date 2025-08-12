@@ -1,116 +1,69 @@
 'use client'
 
-import React, { useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
+"use client";
+import { useState } from "react";
 
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
-  });
+export default function ContactForm() {
+  const [name, setName] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [email, setEmail] = useState("");
 
-  const [status, setStatus] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setStatus('');
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setStatus('Message sent successfully!');
-        setFormData({ name: '', email: '', company: '', message: '' });
-      } else {
-        setStatus(data.error || 'Something went wrong.');
-      }
-    } catch (err) {
-      setStatus('Error sending message.');
-    }
-
-    setLoading(false);
+    const message = `Hello, my name is ${name}. My WhatsApp is ${whatsapp} and my email is ${email}. I would like to know more details and pricing.`;
+    const whatsappNumber = "923001234567"; // Replace with your WhatsApp number (without +)
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
   };
 
   return (
-    <section id="contact">
-      <div className="max-w-lg mx-auto p-8 bg-white shadow-2xl rounded-xl mt-12">
-        <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
-          Contact Me for Full Stack Development
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="company"
-            placeholder="Company Name"
-            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.company}
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-            rows={4}
-            value={formData.message}
-            onChange={handleChange}
-            required
-          ></textarea>
-          <button
-            type="submit"
-            className="w-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold py-3 rounded-md hover:from-purple-700 hover:to-pink-600 transition disabled:opacity-70"
-            disabled={loading}
-          >
-            {loading ? (
-              <FaSpinner className="animate-spin mr-2" />
-            ) : (
-              'Contact Me'
-            )}
-            {loading && ' Sending...'}
-          </button>
-        </form>
+    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <h2 className="text-lg font-semibold text-center text-green-700 mb-4">
+        💬 For details and pricing, contact us directly on WhatsApp!
+      </h2>
 
-        {status && (
-          <p className={`mt-4 text-center font-medium ${
-            status.includes('success') ? 'text-green-600' : 'text-red-600'
-          }`}>
-            {status}
-          </p>
-        )}
-      </div>
-    </section>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-500"
+        />
+
+        <input
+          type="text"
+          placeholder="Your WhatsApp Number"
+          value={whatsapp}
+          onChange={(e) => setWhatsapp(e.target.value)}
+          required
+          className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-500"
+        />
+
+        <input
+          type="email"
+          placeholder="Your Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-500"
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200"
+        >
+          Contact on WhatsApp
+        </button>
+      </form>
+    </div>
   );
-};
+}
 
-export default ContactForm;
+
+
+
+

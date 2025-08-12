@@ -1,43 +1,35 @@
-import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
   try {
-    const { name, email, company, message } = await req.json();
+    const { name, whatsapp, email } = await req.json();
 
-    if (!name || !email || !company || !message) {
-      return NextResponse.json({ error: 'Please fill all fields' }, { status: 400 });
-    }
-
-    // Create transporter
+    // Setup email transporter
     const transporter = nodemailer.createTransport({
-      service: 'Gmail',
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // your gmail
-        pass: process.env.EMAIL_PASS, // your app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Email options
-    const mailOptions = {
-      from: email,
-      to: process.env.EMAIL_RECEIVER, // your receiving email
-      subject: 'New Full Stack Developer Hiring Inquiry',
-      html: `
-        <h2>Hiring Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Company:</strong> ${company}</p>
-        <p><strong>Message:</strong> ${message}</p>
-      `,
-    };
-
     // Send email
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_TO,
+      subject: "New Contact Form Submission",
+      text: `
+        Name: ${name}
+        WhatsApp: ${whatsapp}
+        Email: ${email}
+      `,
+    });
 
-    return NextResponse.json({ success: 'Message sent successfully!' }, { status: 200 });
+    return NextResponse.json({ message: "Message sent successfully" }, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });
+    console.error("Email send error:", error);
+    return NextResponse.json({ message: "Error sending message" }, { status: 500 });
   }
 }
+
